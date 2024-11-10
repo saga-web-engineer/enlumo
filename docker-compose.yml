@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - type: bind
+        source: ${PWD}/docker/postgres/init.d
+        target: /docker-entrypoint-initdb.d/
+      - type: bind
+        source: ${PWD}/docker/postgres/pgdata
+        target: /docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_USER: enlumouser
+      POSTGRES_PASSWORD: enlumopass
+      POSTGRES_INITDB_ARGS: '--encoding=UTF-8'
+      POSTGRES_DB: enlumo
+    hostname: postgres
+    restart: always
+    user: root
