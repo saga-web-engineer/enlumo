@@ -19,10 +19,25 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  inviteCode    String    @unique @default(uuid())
+
+  accounts  Account[]
+  sessions  Session[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  InviteChildren   Invite?  @relation("children", fields: [inviteIdChildren], references: [id])
+  inviteIdChildren String?
+  Invite           Invite[] @relation("parent")
+
+  isLicense Boolean @default(false) //招待コードを入力したらtrue
+}
+
+model Invite {
+  id       String @id @default(cuid())
+  parent   User   @relation("parent", fields: [parentId], references: [id]) //招待コードの持ち主
+  parentId String
+  children User[] @relation("children") //自分の招待コードを使ってアカウント登録をしたユーザーたち
 }
 
 model Account {
