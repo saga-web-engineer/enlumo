@@ -26,18 +26,11 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  InviteChildren   Invite?  @relation("children", fields: [inviteIdChildren], references: [id])
-  inviteIdChildren String?
-  Invite           Invite[] @relation("parent")
+  invitor   User   @relation("invite", fields: [invitorId], references: [id]) // 自分を招待したユーザー
+  invitorId String
+  invitee   User[] @relation("invite") // 自分が招待したユーザー
 
-  isLicense Boolean @default(false) //招待コードを入力したらtrue
-}
-
-model Invite {
-  id       String @id @default(cuid())
-  parent   User   @relation("parent", fields: [parentId], references: [id]) //招待コードの持ち主
-  parentId String
-  children User[] @relation("children") //自分の招待コードを使ってアカウント登録をしたユーザーたち
+  isLicense Boolean @default(false) // 招待コードを入力したらtrue
 }
 
 model Account {
