@@ -9,6 +9,6 @@ interface Props {
 
 export const Logo: FC<Props> = ({ width, height, addClass }) => {
   return (
-    <Image src="/img/logo2.svg" alt="Relumo" width={width} height={height} className={addClass} />
+    <Image src="/img/logo.svg" alt="Relumo" width={width} height={height} className={addClass} />
   );
 };
