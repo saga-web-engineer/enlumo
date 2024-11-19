@@ -4,11 +4,11 @@ import type { FC } from 'react';
 interface Props {
   width: number;
   height: number;
-  addClass?: string;
+  className?: string;
 }
 
-export const Logo: FC<Props> = ({ width, height, addClass }) => {
+export const Logo: FC<Props> = ({ width, height, className }) => {
   return (
-    <Image src="/img/logo.svg" alt="Relumo" width={width} height={height} className={addClass} />
+    <Image src="/img/logo.svg" alt="Relumo" width={width} height={height} className={className} />
   );
 };

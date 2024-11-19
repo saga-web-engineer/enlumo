@@ -6,7 +6,7 @@ import { signIn } from '@/app/lib/auth';
 export default function Home() {
   return (
     <div className="pb-2 pt-12 flex flex-col h-full md:pt-24">
-      <Logo width={200} height={47} addClass="mx-auto w-4/5 max-w-md" />
+      <Logo width={200} height={47} className="mx-auto w-4/5 max-w-md" />
       <p className="[word-break:keep-all] [overflow-wrap:anywhere] my-auto pt-8 text-2xl leading-relaxed sm:leading-[1.85] sm:text-4xl">
         Relumo（リルモ）へ
         <wbr />

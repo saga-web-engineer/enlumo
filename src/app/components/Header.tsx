@@ -7,7 +7,7 @@ import { ThemeToggle } from '@/app/components/theme/ThemeToggle';
 
 export const Header: FC = () => {
   return (
-    <header className="sticky py-5 top-0 border-b backdrop-blur bg-background/50">
+    <header className="sticky py-4 top-0 border-b backdrop-blur bg-background/50">
       <Wrapper className="flex justify-between items-center">
         <h1>
           <Link href="/">
