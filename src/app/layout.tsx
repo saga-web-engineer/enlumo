@@ -3,13 +3,13 @@ import type { Metadata } from 'next';
 import { Footer } from '@/app/components/Footer';
 import { Header } from '@/app/components/Header';
 import { Wrapper } from '@/app/components/Wrapper';
-
-import './globals.css';
+import { ThemeProvider } from '@/app/components/theme/ThemeProvider';
+import '@/app/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Enlumo',
+  title: 'Relumo（リルモ）',
   description:
-    'Enlumoは「Enlighten（啓発する）」と「Lumo（光）」を掛け合わせ、問題顧客の情報を共有することで業界を健全に照らすという意味を込めています。',
+    'Relumo（リルモ）へようこそ。Relumoは、招待された人だけが参加できるプライベートな掲示板アプリ。仕事の話や何気ない雑談も、気ままにシェア。もっと自由に、もっと開放的に。安心して心を開けるプライベートな空間を提供します。',
 };
 
 export default function RootLayout({
@@ -18,15 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body>
-        <div className="grid min-h-screen grid-cols-[100%] grid-rows-[auto_1fr_auto]">
-          <Header />
-          <main>
-            <Wrapper>{children}</Wrapper>
-          </main>
-          <Footer />
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="grid min-h-screen grid-cols-[100%] grid-rows-[auto_1fr_auto]">
+            <Header />
+            <main>
+              <Wrapper className="h-full">{children}</Wrapper>
+            </main>
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
