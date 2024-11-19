@@ -5,17 +5,17 @@ import { Header } from '@/app/components/Header';
 import { Wrapper } from '@/app/components/Wrapper';
 import { ThemeProvider } from '@/app/components/theme/ThemeProvider';
 import '@/app/globals.css';
+import { siteDescription, siteName, siteUrl } from '@/app/utils/siteSettings';
 
 export const metadata: Metadata = {
-  title: 'Relumo（リルモ）',
-  description:
-    'Relumo（リルモ）へようこそ。Relumoは、招待された人だけが参加できるプライベートな掲示板アプリ。仕事の話や何気ない雑談も、気ままにシェア。もっと自由に、もっと開放的に。安心して心を開けるプライベートな空間を提供します。',
+  title: siteName,
+  description: siteDescription,
   openGraph: {
-    url: 'https://relumo.vercel.app',
+    url: siteUrl,
     type: 'website',
     images: '/ogp.jpg',
     locale: 'ja_JP',
-    siteName: 'Relumo（リルモ）',
+    siteName: siteName,
   },
   twitter: {
     site: '@saga_engineer',
