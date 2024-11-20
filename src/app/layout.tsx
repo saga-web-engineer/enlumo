@@ -3,13 +3,31 @@ import type { Metadata } from 'next';
 import { Footer } from '@/app/components/Footer';
 import { Header } from '@/app/components/Header';
 import { Wrapper } from '@/app/components/Wrapper';
-
-import './globals.css';
+import { ThemeProvider } from '@/app/components/theme/ThemeProvider';
+import '@/app/globals.css';
+import { siteDescription, siteName, siteUrl } from '@/app/utils/siteSettings';
 
 export const metadata: Metadata = {
-  title: 'Enlumo',
-  description:
-    'Enlumoは「Enlighten（啓発する）」と「Lumo（光）」を掛け合わせ、問題顧客の情報を共有することで業界を健全に照らすという意味を込めています。',
+  title: siteName,
+  description: siteDescription,
+  openGraph: {
+    url: siteUrl,
+    type: 'website',
+    images: '/ogp.jpg',
+    locale: 'ja_JP',
+    siteName: siteName,
+  },
+  twitter: {
+    site: '@saga_engineer',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.webmanifest',
 };
 
 export default function RootLayout({
@@ -18,15 +36,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body>
-        <div className="grid min-h-screen grid-cols-[100%] grid-rows-[auto_1fr_auto]">
-          <Header />
-          <main>
-            <Wrapper>{children}</Wrapper>
-          </main>
-          <Footer />
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="grid min-h-screen grid-cols-[100%] grid-rows-[auto_1fr_auto]">
+            <Header />
+            <main>
+              <Wrapper className="h-full">{children}</Wrapper>
+            </main>
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

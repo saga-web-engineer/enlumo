@@ -7,7 +7,7 @@ import { useFormStatus } from 'react-dom';
 
 import { Button } from '@/components/ui/button';
 
-export const ButtonGoogleAuth: FC = () => {
+export const ButtonTwitterAuth: FC = () => {
   const { pending } = useFormStatus();
 
   return (
@@ -21,12 +21,12 @@ export const ButtonGoogleAuth: FC = () => {
         <Button className="w-full h-auto py-4 sm:text-xl" variant="outline">
           <Image
             className="w-4 sm:w-5"
-            src="/img/google.svg"
-            alt="Googleロゴ"
+            src="/img/Twitter.svg"
+            alt="Twitterロゴ"
             width={20}
             height={20}
           />
-          Googleでログイン
+          Twitter（X）でログイン
         </Button>
       )}
     </>

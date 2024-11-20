@@ -4,7 +4,7 @@ import { Wrapper } from '@/app/components/Wrapper';
 
 export const Footer: FC = () => {
   return (
-    <footer>
+    <footer className="py-4">
       <Wrapper>
         <p className="text-center">
           <small translate="no">&copy; 2024 Kume Yuta</small>
