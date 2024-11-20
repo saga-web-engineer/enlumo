@@ -84,6 +84,7 @@ model Thread {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
+  bio       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Post      Post[]
@@ -93,10 +94,10 @@ model Post {
   id        String   @id @default(cuid())
   thread    Thread   @relation(fields: [threadId], references: [id])
   threadId  String
-  number    Int      @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   good      User[]   @relation("good")
   bad       User[]   @relation("bad")
   love      User[]   @relation("love")
