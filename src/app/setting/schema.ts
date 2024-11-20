@@ -1,0 +1,6 @@
+import { z } from "zod";
+
+export const settingSchema = z.object({
+  name: z.string().min(1, "名前を入力してください").max(30, "30文字以内で入力してください"),
+  bio: z.string().max(200, "200文字以内で入力してください").optional()
+})
