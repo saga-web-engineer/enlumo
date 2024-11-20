@@ -1,11 +1,32 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import Google from 'next-auth/providers/google';
 import Twitter from 'next-auth/providers/twitter';
-import NextAuth from "next-auth"
+import NextAuth, { DefaultSession, User } from "next-auth"
 
 import prisma from '@/app/lib/db';
+declare module 'next-auth' {
+  interface Session {
+    user: User & DefaultSession["user"] & {
+      isLicense: boolean;
+    }
+  }
+}
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [Google, Twitter],
+  callbacks: {
+    async session({ session }) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.userId
+        },
+        select: {
+          isLicense: true
+        }
+      })
+      session.user.isLicense = !!user?.isLicense;
+      return session
+    },
+  }
 });
