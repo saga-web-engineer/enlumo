@@ -30,7 +30,15 @@ model User {
   invitorId String?
   invitee   User[]  @relation("invite") // 自分が招待したユーザー
 
-  isLicense Boolean @default(false) // 招待コードを入力したらtrue
+  isLicense Boolean  @default(false) // 招待コードを入力したらtrue
+  Threads   Thread[]
+  Post      Post[]
+  goodPost  Post[]   @relation("good")
+  badPost   Post[]   @relation("bad")
+  lovePost  Post[]   @relation("love")
+  funnyPost Post[]   @relation("funny")
+  cryPost   Post[]   @relation("cry")
+  angelPost Post[]   @relation("angel")
 }
 
 model Account {
@@ -70,4 +78,29 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Thread {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Post      Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  threadId  String
+  number    Int      @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  good      User[]   @relation("good")
+  bad       User[]   @relation("bad")
+  love      User[]   @relation("love")
+  funny     User[]   @relation("funny")
+  cry       User[]   @relation("cry")
+  angel     User[]   @relation("angel")
 }
