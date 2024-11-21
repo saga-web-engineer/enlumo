@@ -16,6 +16,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [Google, Twitter],
   callbacks: {
+    // sessionにisLicense（招待コードを入力したか）の情報を含める
     async session({ session }) {
       const user = await prisma.user.findUnique({
         where: {
@@ -25,7 +26,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           isLicense: true
         }
       })
-      session.user.isLicense = !!user?.isLicense;
+      session.user.isLicense = !!user?.isLicense; // nullの場合はfalseとしてsessionに含める
       return session
     },
   }
