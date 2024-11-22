@@ -7,7 +7,7 @@ import prisma from "../lib/db";
 export default async function Setting() {
   const session = await auth();
 
-  if (!session?.user) redirect("/");
+  if (!session?.user.isLicense) redirect("/");
 
   const user = await prisma.user.findUnique({
     where: {

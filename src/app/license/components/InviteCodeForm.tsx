@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useActionState } from "react";
 
 import { getUserByInviteCode } from "@/app/license/actions"
-import { useForm } from '@conform-to/react';
-import { parseWithZod } from '@conform-to/zod';
+import { getFormProps, getInputProps, useForm } from '@conform-to/react';
+import { getZodConstraint, parseWithZod } from '@conform-to/zod';
 import { inviteCodeSchema } from '../schema';
 
 export const InviteCodeForm: FC = () => {
@@ -20,17 +20,19 @@ export const InviteCodeForm: FC = () => {
       return parseWithZod(formData, { schema: inviteCodeSchema });
     },
 
+    constraint: getZodConstraint(inviteCodeSchema),
+
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',
   });
 
   return (
-    <form id={form.id} onSubmit={form.onSubmit} action={formAction}>
-      <Input name={fields.code.name} key={fields.code.key} />
+    <form action={formAction} {...getFormProps(form)}>
+      <Input {...getInputProps(fields.code, { type: 'text' })} key={fields.code.key} />
       {fields.code.errors && (
         <p className="text-sm text-red-500">{fields.code.errors}</p>
       )}
-      <Button disabled={!fields.code.value || isPending}>招待コードがあるか確認してみる！！！！！！</Button>
+      <Button disabled={!form.valid || isPending}>招待コードがあるか確認してみる！！！！！！</Button>
     </form>
   )
 }
