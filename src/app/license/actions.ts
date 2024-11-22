@@ -2,29 +2,30 @@
 
 import { auth, unstable_update } from "@/app/lib/auth";
 import prisma from "@/app/lib/db";
-import { inviteCodeSchema } from "@/app/license/type";
+import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
+import { inviteCodeSchema } from "./schema";
 
-export const getUserByInviteCode = async (_prevState: string | null, formData: FormData) => {
+export const getUserByInviteCode = async (_prevState: unknown, formData: FormData) => {
   const session = await auth()
 
   if (!session) {
     redirect("/")
   }
 
-  const code = formData.get('code');
+  const submission = parseWithZod(formData, { schema: inviteCodeSchema })
 
-  const parsedCode = inviteCodeSchema.parse(code)
+  if (submission.status !== "success") return submission.reply();
 
   try {
     const parent = await prisma.user.findUnique({
       where: {
-        inviteCode: parsedCode
+        inviteCode: submission.value.code
       }
     })
 
     if (!parent) {
-      return "error"
+      return submission.reply({ fieldErrors: { code: ["そんなわけわからないID存在しません"] } })
     }
 
     await prisma.user.update({
@@ -44,7 +45,7 @@ export const getUserByInviteCode = async (_prevState: string | null, formData: F
 
   } catch (error) {
     console.log(error)
-    return "error"
+    return submission.reply()
   }
 
   redirect("/threads")

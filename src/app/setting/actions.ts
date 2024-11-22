@@ -1,35 +1,34 @@
 "use server"
 
-import { z } from "zod"
 import { settingSchema } from "./schema"
 import prisma from "../lib/db"
 import { auth } from "../lib/auth"
+import { parseWithZod } from '@conform-to/zod';
 import { revalidatePath } from "next/cache"
 
-export const updateUser = async (_prevState: z.infer<typeof settingSchema> | null, formData: FormData) => {
+export const updateUser = async (_prevState: unknown, formData: FormData) => {
   const session = await auth()
   const currentUser = session?.user;
 
   if (!currentUser) return null
 
-  const rawData = {
-    name: formData.get("name"),
-    bio: formData.get("bio")
-  }
+  const submission = parseWithZod(formData, {
+    schema: settingSchema,
+  });
 
-  const data = settingSchema.parse(rawData)
+  if (submission.status !== "success") return submission.reply();
 
   await prisma.user.update({
     where: {
       id: currentUser.id,
     },
     data: {
-      name: data.name,
-      bio: data.bio,
+      name: submission.value.name,
+      bio: submission.value.bio,
     },
   })
 
   revalidatePath("/setting")
 
-  return data
+  return submission.payload;
 }
