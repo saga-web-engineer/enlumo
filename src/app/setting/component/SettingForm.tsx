@@ -1,23 +1,39 @@
-"use client"
+'use client';
 
 import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react';
-import { useActionState } from "react"
-import { updateUser } from "../actions"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { settingSchema } from '../schema';
-type props = {
+import { FC, useActionState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+
+import { updateUser } from '@/app/setting/actions';
+import { settingSchema } from '@/app/setting/schema';
+
+type Props = {
   defaultValue?: {
     name?: string | null
     bio?: string | null
   }
 }
 
-export const SettingForm = ({ defaultValue }: props) => {
-  const [lastResult, action, isPending] = useActionState(updateUser, null);
+export const SettingForm: FC<Props> = ({ defaultValue }) => {
+  const [lastResult, action, isPending] = useActionState(async (prev: unknown, action: FormData) => {
+    try {
+      const result = await updateUser(prev, action);
+
+      toast.success("設定を更新しました");
+
+      return result;
+    } catch (error) {
+      toast.error("設定の更新に失敗しました")
+      console.log(error)
+    }
+  }, null);
   const [form, fields] = useForm({
     lastResult,
 
@@ -52,7 +68,12 @@ export const SettingForm = ({ defaultValue }: props) => {
         </div>
       </div>
 
-      <Button disabled={!form.valid || isPending}>登録</Button>
+      <Button
+        className={cn({ 'cursor-not-allowed': !form.valid || isPending })}
+        disabled={!form.valid || isPending}
+      >
+        登録
+      </Button>
     </form>
   )
 }

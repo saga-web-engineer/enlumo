@@ -6,6 +6,7 @@ import { Wrapper } from '@/app/components/Wrapper';
 import { ThemeProvider } from '@/app/components/theme/ThemeProvider';
 import '@/app/globals.css';
 import { siteDescription, siteName, siteUrl } from '@/app/utils/siteSettings';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: siteName,
@@ -51,6 +52,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
+          <Toaster richColors position='top-center' />
         </ThemeProvider>
       </body>
     </html>
