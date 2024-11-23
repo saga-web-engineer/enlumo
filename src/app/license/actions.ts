@@ -1,6 +1,6 @@
 "use server"
 
-import { auth } from "@/app/lib/auth";
+import { auth, unstable_update } from "@/app/lib/auth";
 import prisma from "@/app/lib/db";
 import { inviteCodeSchema } from "@/app/license/type";
 import { redirect } from "next/navigation";
@@ -32,6 +32,12 @@ export const getUserByInviteCode = async (_prevState: string | null, formData: F
         id: session.user?.id
       },
       data: {
+        isLicense: true
+      }
+    })
+
+    unstable_update({
+      user: {
         isLicense: true
       }
     })
