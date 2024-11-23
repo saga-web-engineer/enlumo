@@ -59,6 +59,7 @@ export const Header: FC = async () => {
                     </form>
                   </DropdownMenuItem>
                   {
+                    // 抹消ボタンは最終的に削除する
                     process.env.NODE_ENV === "development" && (
                       <DropdownMenuItem>
                         <form
