@@ -21,7 +21,7 @@ class UserFactory {
     return prisma.user.create({
       data: {
         name: 'testUser',
-        email: 'example@example.com',
+        email: `${Math.floor(Math.random() * 100000)}@example.com`, // ランダムなemailアドレスを指定
         ...attr
       }
     })
@@ -29,19 +29,19 @@ class UserFactory {
 }
 
 describe('招待コード', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetAllMocks()
+    // テスト用DBをリセットする
     execSync('npm run migrate:test');
   })
   describe("存在するコードを入力する", () => {
 
     beforeEach(async () => {
-      const [{ inviteCode },] = await Promise.all([
-        // 招待コードの持ち主
-        UserFactory.create({ id: INVITER_ID }),
-        // 招待コードを入力する人
-        UserFactory.create({ id: NEW_USER_ID })
-      ])
+      // 招待コードの持ち主
+      const { inviteCode } = await UserFactory.create({ id: INVITER_ID })
+      // 招待コードを入力する人
+      await UserFactory.create({ id: NEW_USER_ID })
+
 
       const formData = new FormData();
       formData.append('inviteCode', inviteCode)
@@ -81,12 +81,11 @@ describe('招待コード', () => {
   describe("存在しないコードを入力する", () => {
 
     beforeEach(async () => {
-      const [{ inviteCode },] = await Promise.all([
-        // 招待コードの持ち主
-        UserFactory.create({ id: INVITER_ID }),
-        // 招待コードを入力する人
-        UserFactory.create({ id: NEW_USER_ID })
-      ])
+      // 招待コードの持ち主
+      const { inviteCode } = await UserFactory.create({ id: INVITER_ID })
+      // 招待コードを入力する人
+      await UserFactory.create({ id: NEW_USER_ID })
+
 
       const formData = new FormData();
       formData.append('inviteCode', `${inviteCode}a`) //存在しない招待コード

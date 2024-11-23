@@ -3,7 +3,11 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   test: {
-    // ... Specify options here.
+    poolOptions: {
+      forks: {
+        singleFork: true
+      },
+    }
   },
   resolve: {
     alias: {
