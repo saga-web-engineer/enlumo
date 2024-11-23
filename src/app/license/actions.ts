@@ -25,7 +25,7 @@ export const getUserByInviteCode = async (_prevState: unknown, formData: FormDat
     if (!inviter) {
       return submission.reply({
         fieldErrors: {
-          code: ['入力された招待コードは存在しません。もう一度お友達に聞いてみてね！'],
+          inviteCode: ['入力された招待コードは存在しません。もう一度お友達に聞いてみてね！'],
         },
       });
     }
