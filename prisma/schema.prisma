@@ -20,14 +20,15 @@ model User {
   emailVerified DateTime?
   image         String?
   inviteCode    String    @unique @default(uuid())
+  bio           String?
 
   accounts  Account[]
   sessions  Session[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  invitor   User?   @relation("invite", fields: [invitorId], references: [id]) // 自分を招待したユーザー
-  invitorId String?
+  inviter   User?   @relation("invite", fields: [inviterId], references: [id]) // 自分を招待したユーザー
+  inviterId String?
   invitee   User[]  @relation("invite") // 自分が招待したユーザー
 
   isLicense Boolean  @default(false) // 招待コードを入力したらtrue
