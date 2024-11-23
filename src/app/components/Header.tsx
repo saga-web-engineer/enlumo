@@ -1,16 +1,17 @@
 import Link from 'next/link';
 import type { FC } from 'react';
+import { AvatarFallback } from '@radix-ui/react-avatar';
+import { UserCircle2 } from 'lucide-react';
+import { redirect } from 'next/navigation';
+
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 import { Logo } from '@/app/components/Logo';
 import { Wrapper } from '@/app/components/Wrapper';
 import { ThemeToggle } from '@/app/components/theme/ThemeToggle';
-import { auth, signOut } from '../lib/auth';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { AvatarFallback } from '@radix-ui/react-avatar';
-import { UserCircle2 } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import prisma from '../lib/db';
-import { redirect } from 'next/navigation';
+import { auth, signOut } from '@/app/lib/auth';
+import prisma from '@/app/lib/db';
 
 export const Header: FC = async () => {
   const session = await auth();
