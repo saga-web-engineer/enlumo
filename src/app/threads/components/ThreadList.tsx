@@ -33,7 +33,7 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
       <ul className="mt-6">
         {totalThreads === 0 ? (
           <li className="flex items-center gap-2">
-            スレッドが存在しません
+            スレッドがありません
             <Frown size={'1em'} />
             {'< ﾋﾟｴﾝ'}
           </li>

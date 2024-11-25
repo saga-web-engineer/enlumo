@@ -40,7 +40,7 @@ export const ThreadConversationList: FC<Props> = async ({
       <ol className="mt-6">
         {posts.length === 0 ? (
           <li className="flex items-center gap-2">
-            スレッドが存在しません
+            投稿がありません
             <Frown size={'1em'} />
             {'< ﾋﾟｴﾝ'}
           </li>

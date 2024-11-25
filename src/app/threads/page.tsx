@@ -10,7 +10,7 @@ import { ThreadList } from '@/app/threads/components/ThreadList';
 import { THREADS_PER_PAGE } from '@/app/utils/siteSettings';
 
 interface Params {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ page: string | undefined }>;
 }
 
 export default async function Threads({ searchParams }: Params) {

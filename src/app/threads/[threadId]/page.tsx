@@ -12,7 +12,7 @@ import { POSTS_PER_PAGE } from '@/app/utils/siteSettings';
 
 interface Params {
   params: Promise<{ threadId: string }>;
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ page: string | undefined }>;
 }
 
 export default async function ThreadConversation({ params, searchParams }: Params) {
