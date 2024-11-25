@@ -2,24 +2,23 @@ import { ButtonGoogleAuth } from '@/app/components/button/ButtonGoogleAuth';
 import { ButtonTwitterAuth } from '@/app/components/button/ButtonTwitterAuth';
 import { Logo } from '@/app/components/Logo';
 import { auth, signIn } from '@/app/lib/auth';
-import { siteName } from '@/app/utils/siteSettings';
+import { SITE_NAME } from '@/app/utils/siteSettings';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {
-
   const session = await auth();
 
   // 招待コード入力済みのログインユーザーはスレッド一覧ページへリダイレクト
-  if (session?.user.isLicense) redirect("/threads");
+  if (session?.user.isLicense) redirect('/threads');
 
   // 招待コードを入力していないログインユーザーは招待コード入力ページへリダイレクト
-  if (session?.user && !session.user.isLicense) redirect("/license");
+  if (session?.user && !session.user.isLicense) redirect('/license');
 
   return (
     <div className="pb-2 pt-12 flex flex-col h-full md:pt-24">
       <Logo width={200} height={47} className="mx-auto w-4/5 max-w-md" />
       <p className="[word-break:keep-all] [overflow-wrap:anywhere] my-auto pt-8 text-2xl leading-relaxed sm:leading-[1.85] sm:text-4xl">
-        {siteName}へ
+        {SITE_NAME}へ
         <wbr />
         ようこそ。
         <wbr />

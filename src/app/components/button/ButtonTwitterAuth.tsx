@@ -21,7 +21,7 @@ export const ButtonTwitterAuth: FC = () => {
         <Button className="w-full h-auto py-4 sm:text-xl" variant="outline">
           <Image
             className="w-4 sm:w-5"
-            src="/img/Twitter.svg"
+            src="/img/twitter.svg"
             alt="Twitterロゴ"
             width={20}
             height={20}
