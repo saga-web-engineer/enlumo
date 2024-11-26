@@ -48,17 +48,24 @@ export const ThreadPostDialog: FC<{ threadId: string }> = ({ threadId }) => {
       <DialogTrigger>
         <ThreadPostButton />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[90%] md:py-10 md:gap-6">
         <DialogHeader>
           <DialogTitle>投稿内容</DialogTitle>
         </DialogHeader>
         <form {...getFormProps(form)} action={action}>
-          <Textarea {...getTextareaProps(fields.post)} key={fields.post.key} />
+          <Textarea
+            {...getTextareaProps(fields.post)}
+            key={fields.post.key}
+            className="min-h-[160px] max-h-[300px] resize-none [field-sizing:content]"
+          />
           <p className="text-sm text-red-500">{fields.post.errors}</p>
           <p className="text-sm text-muted-foreground">140文字以内</p>
           <input type="hidden" name="threadId" value={threadId} />
           <Button
-            className={cn({ 'cursor-not-allowed': !form.valid || isPending })}
+            className={cn(
+              { 'cursor-not-allowed': !form.valid || isPending },
+              'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+            )}
             disabled={!form.valid || isPending}
           >
             投稿する
