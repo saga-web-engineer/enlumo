@@ -5,18 +5,18 @@ import { Header } from '@/app/components/Header';
 import { Wrapper } from '@/app/components/Wrapper';
 import { ThemeProvider } from '@/app/components/theme/ThemeProvider';
 import '@/app/globals.css';
-import { siteDescription, siteName, siteUrl } from '@/app/utils/siteSettings';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
 import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
-  title: siteName,
-  description: siteDescription,
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
   openGraph: {
-    url: siteUrl,
+    url: SITE_URL,
     type: 'website',
     images: '/ogp.jpg',
     locale: 'ja_JP',
-    siteName: siteName,
+    siteName: SITE_NAME,
   },
   twitter: {
     site: '@saga_engineer',
@@ -52,7 +52,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-          <Toaster richColors position='top-center' />
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
     </html>

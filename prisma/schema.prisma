@@ -33,7 +33,7 @@ model User {
 
   isLicense Boolean  @default(false) // 招待コードを入力したらtrue
   Threads   Thread[]
-  Post      Post[]
+  posts     Post[]
   goodPost  Post[]   @relation("good")
   badPost   Post[]   @relation("bad")
   lovePost  Post[]   @relation("love")
@@ -85,10 +85,11 @@ model Thread {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
+  title     String
   bio       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Post      Post[]
+  posts     Post[]
 }
 
 model Post {
@@ -97,6 +98,7 @@ model Post {
   threadId  String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   good      User[]   @relation("good")
