@@ -49,7 +49,9 @@ export const ThreadConversationList: FC<Props> = async ({
             <li className="border-t last-of-type:border-b p-4" key={post.id}>
               <div>{totalPosts - (currentPage - 1) * postsPerPage - index}</div>
               <div className="grid gap-2 pt-2">
-                <p>{post.content}</p>
+                <p>
+                  <pre className="whitespace-pre-wrap">{post.content}</pre>
+                </p>
                 <p className="flex items-center gap-2 text-sm">
                   <UserRound size={'1rem'} />
                   {post.user.name}
