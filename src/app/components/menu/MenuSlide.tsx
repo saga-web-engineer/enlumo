@@ -10,10 +10,10 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 import { NavMenu } from '@/app/components/nav/NavMenu';
+import { UserName } from '@/app/components/user/UserName';
 import { auth, signOut } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
 import { SYSTEM_VERSION } from '@/app/utils/siteSettings';
-import { UserName } from '../user/UserName';
 
 export const MenuSlide: FC = async () => {
   const session = await auth();
