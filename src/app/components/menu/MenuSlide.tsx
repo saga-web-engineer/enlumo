@@ -13,27 +13,18 @@ import { NavMenu } from '@/app/components/nav/NavMenu';
 import { auth, signOut } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
 import { SYSTEM_VERSION } from '@/app/utils/siteSettings';
+import { UserName } from '../user/UserName';
 
 export const MenuSlide: FC = async () => {
   const session = await auth();
-  if (!session?.user.isLicense) redirect('/');
-
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-    select: { name: true },
-  });
-
-  const { name } = user || {};
 
   return (
     <>
-      {session.user && (
+      {session?.user && (
         <Sheet>
           <SheetTrigger>
             <Avatar className="grid place-items-center">
-              <AvatarImage src={session.user.image || undefined} />
+              <AvatarImage src={session?.user.image || undefined} />
               <AvatarFallback>
                 <UserCircle2 />
               </AvatarFallback>
@@ -45,12 +36,12 @@ export const MenuSlide: FC = async () => {
                 <SheetTitle>メニュー</SheetTitle>
               </VisuallyHidden.Root>
               <Avatar className="grid place-items-center">
-                <AvatarImage src={session.user.image || undefined} />
+                <AvatarImage src={session?.user.image || undefined} />
                 <AvatarFallback>
                   <UserCircle2 />
                 </AvatarFallback>
               </Avatar>
-              <p className="text-left break-all sm:text-xl">{name}</p>
+              <UserName />
             </SheetHeader>
             <NavMenu />
             <form
