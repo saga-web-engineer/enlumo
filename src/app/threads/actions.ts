@@ -2,11 +2,11 @@
 
 import { parseWithZod } from '@conform-to/zod';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
-import { ThreadsNewSchema } from '@/app/threads/new/schema';
-import { redirect } from 'next/navigation';
+import { ThreadsNewSchema } from '@/app/threads/schema';
 
 export const createThread = async (_prevState: unknown, formData: FormData) => {
   const session = await auth();
