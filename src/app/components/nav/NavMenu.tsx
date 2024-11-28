@@ -2,12 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { FC } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 
 import { navList } from '@/app/components/nav/data/navMenu';
 import { cn } from '@/lib/utils';
 
-export const NavMenu: FC = () => {
+interface Props {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export const NavMenu: FC<Props> = ({ setOpen }) => {
   const pathname = usePathname();
 
   return (
@@ -23,6 +27,7 @@ export const NavMenu: FC = () => {
                 'w-full flex items-center py-2 px-3 gap-3 transition-colors hover:text-primary sm:gap-5 sm:text-xl'
               )}
               href={item.href}
+              onClick={() => setOpen(false)}
             >
               <item.icon className="size-4 sm:size-5" />
               {item.label}
