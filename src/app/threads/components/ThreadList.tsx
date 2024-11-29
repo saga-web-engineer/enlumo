@@ -45,12 +45,12 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
                 href={`/threads/${thread.id}`}
               >
                 <h2 className="font-bold text-lg">{thread.title}</h2>
-                <p className="text-sm">{thread.bio}</p>
-                <p className="flex items-center gap-2 text-sm">
+                <p className="text-sm text-muted-foreground">{thread.bio}</p>
+                <p className="flex items-center gap-2 text-sm text-muted-foreground">
                   <UserRound size={'1rem'} />
                   {thread.user.name}
                 </p>
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <p className="flex items-center gap-2">
                     <MessageCircle size={'1em'} />
                     {thread._count.posts}
