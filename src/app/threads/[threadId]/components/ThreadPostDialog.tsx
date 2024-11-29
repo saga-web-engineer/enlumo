@@ -48,7 +48,10 @@ export const ThreadPostDialog: FC<{ threadId: string }> = ({ threadId }) => {
       <DialogTrigger>
         <ThreadPostButton />
       </DialogTrigger>
-      <DialogContent className="w-[90%] md:py-10 md:gap-6">
+      <DialogContent
+        className="w-[90%] md:py-10 md:gap-6"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>投稿内容</DialogTitle>
         </DialogHeader>
