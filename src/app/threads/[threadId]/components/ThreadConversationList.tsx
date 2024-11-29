@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { CalendarDays, Frown, UserRound } from 'lucide-react';
+import { AtSign, CalendarDays, Frown, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
@@ -46,20 +46,28 @@ export const ThreadConversationList: FC<Props> = async ({
           </li>
         ) : (
           posts.map((post, index) => (
-            <li className="border-t last-of-type:border-b p-4" key={post.id}>
-              <div>{totalPosts - (currentPage - 1) * postsPerPage - index}</div>
-              <div className="grid gap-2 pt-2">
-                <div>
-                  <pre className="whitespace-pre-wrap break-all">{post.content}</pre>
+            <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
+              <div className="grid gap-1">
+                <div className="flex items-center gap-4">
+                  <div className="text-sm text-muted-foreground">
+                    #{totalPosts - (currentPage - 1) * postsPerPage - index}
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CalendarDays size={'1em'} />
+                    {dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}
+                  </div>
                 </div>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <UserRound size={'1rem'} />
                   {post.user.name}
-                </p>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CalendarDays size={'1em'} />
-                  {dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}
-                </p>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <AtSign size={'1rem'} />
+                  *****{post.user.id.slice(-10)}
+                </div>
+                <div className="mt-4">
+                  <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
+                </div>
               </div>
             </li>
           ))
