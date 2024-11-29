@@ -1,14 +1,27 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 import { HeadingPage } from '@/app/components/heading/HeadingPage';
 import { LayoutPadding } from '@/app/components/layout/LayoutPadding';
+import { InviteCode } from '@/app/invite/components/InviteCode';
+import { InviteContent } from '@/app/invite/components/InviteContent';
 import { InviteStep } from '@/app/invite/components/InviteStep';
 import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
-import { SITE_URL } from '@/app/utils/siteSettings';
-import { InviteCode } from './components/InviteCode';
-import { InviteContent } from './components/InviteContent';
+import { metadata as defaultMetadata } from '@/app/utils/metadata';
+import { SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
+
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  title: `友達招待 | ${SITE_NAME}`,
+  description:
+    'Relumoへお友達を招待することができます。ページ内の手順に従ってお友達を招待してあげてください。',
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    url: `${SITE_URL}/invite`,
+  },
+};
 
 export default async function Invite() {
   const session = await auth();

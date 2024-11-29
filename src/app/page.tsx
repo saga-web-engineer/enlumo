@@ -1,9 +1,16 @@
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+
 import { ButtonGoogleAuth } from '@/app/components/button/ButtonGoogleAuth';
 import { ButtonTwitterAuth } from '@/app/components/button/ButtonTwitterAuth';
 import { Logo } from '@/app/components/Logo';
 import { auth, signIn } from '@/app/lib/auth';
+import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { SITE_NAME } from '@/app/utils/siteSettings';
-import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  ...defaultMetadata,
+};
 
 export default async function Home() {
   const session = await auth();
