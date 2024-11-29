@@ -38,8 +38,8 @@ export default async function Invite() {
             <Image
               src="/img/qr.png"
               alt={`Relumoサイト${SITE_URL}のQRコード`}
-              width={450}
-              height={450}
+              width={300}
+              height={300}
               loading="eager"
               className="mt-6"
             />

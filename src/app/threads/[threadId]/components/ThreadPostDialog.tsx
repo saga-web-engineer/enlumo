@@ -1,5 +1,10 @@
 'use client';
 
+import { getFormProps, getTextareaProps, useForm } from '@conform-to/react';
+import { getZodConstraint, parseWithZod } from '@conform-to/zod';
+import { useActionState, useState, type FC } from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,17 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { getFormProps, getTextareaProps, useForm } from '@conform-to/react';
-import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { useActionState, useState, type FC } from 'react';
-
-import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
+import { sendMessage } from '@/app/threads/[threadId]/actions';
 import { ThreadPostButton } from '@/app/threads/[threadId]/components/ThreadPostButton';
 import { threadConversationSchema } from '@/app/threads/[threadId]/schema';
-import { sendMessage } from '../actions';
 
 export const ThreadPostDialog: FC<{ threadId: string }> = ({ threadId }) => {
   const [open, setOpen] = useState(false);
@@ -48,7 +48,10 @@ export const ThreadPostDialog: FC<{ threadId: string }> = ({ threadId }) => {
       <DialogTrigger>
         <ThreadPostButton />
       </DialogTrigger>
-      <DialogContent className="w-[90%] md:py-10 md:gap-6">
+      <DialogContent
+        className="w-[90%] md:py-10 md:gap-6"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>投稿内容</DialogTitle>
         </DialogHeader>
