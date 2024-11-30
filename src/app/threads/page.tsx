@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -7,7 +8,19 @@ import { LoadingMessage } from '@/app/components/loading/LoadingMessage';
 import { auth } from '@/app/lib/auth';
 import { ThreadDrawer } from '@/app/threads/components/ThreadDrawer';
 import { ThreadList } from '@/app/threads/components/ThreadList';
-import { THREADS_PER_PAGE } from '@/app/utils/siteSettings';
+import { metadata as defaultMetadata } from '@/app/utils/metadata';
+import { SITE_NAME, SITE_URL, THREADS_PER_PAGE } from '@/app/utils/siteSettings';
+
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  title: `スレッド一覧 | ${SITE_NAME}`,
+  description:
+    'みんながRelumoで立ててくれたスレッド一覧です。新しくスレッドを立てたり、色んなスレッドを覗いたりして楽しんでください。',
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    url: `${SITE_URL}/threads`,
+  },
+};
 
 interface Params {
   searchParams: Promise<{ page: string | undefined }>;

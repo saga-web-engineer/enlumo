@@ -1,16 +1,16 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { getFormProps, getInputProps, useForm } from '@conform-to/react';
+import { getZodConstraint, parseWithZod } from '@conform-to/zod';
 import type { FC } from 'react';
 import { useActionState } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 import { getUserByInviteCode } from '@/app/license/actions';
-import { getFormProps, getInputProps, useForm } from '@conform-to/react';
-import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { inviteCodeSchema } from '../schema';
+import { inviteCodeSchema } from '@/app/license/schema';
 
 export const InviteCodeForm: FC = () => {
   const [lastResult, formAction, isPending] = useActionState(getUserByInviteCode, null);
@@ -29,13 +29,11 @@ export const InviteCodeForm: FC = () => {
   });
 
   return (
-    <form action={formAction} {...getFormProps(form)}>
+    <form action={formAction} {...getFormProps(form)} className="mt-6">
       <Input {...getInputProps(fields.inviteCode, { type: 'text' })} key={fields.inviteCode.key} />
-      {fields.inviteCode.errors && (
-        <p className="text-sm text-red-500">{fields.inviteCode.errors}</p>
-      )}
+      <p className="text-sm text-red-500">{fields.inviteCode.errors}</p>
       <Button
-        className={cn({ 'cursor-not-allowed': !form.valid || isPending })}
+        className={cn({ 'cursor-not-allowed': !form.valid || isPending }, 'mt-6')}
         disabled={!form.valid || isPending}
       >
         招待コードを送信

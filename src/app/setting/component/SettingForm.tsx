@@ -53,34 +53,37 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
   });
 
   return (
-    <form action={action} {...getFormProps(form)}>
-      <div className="grid grid-cols-[20%,80%]">
-        <Label htmlFor="name">名前</Label>
-        <div>
-          <Input
-            {...getInputProps(fields.name, { type: 'text' })}
-            key={fields.name.key}
-            defaultValue={fields.name.initialValue}
-          />
-          <p className="text-sm text-red-500">{fields.name.errors}</p>
-          <p className="text-sm text-muted-foreground">30文字以内</p>
-        </div>
+    <form action={action} {...getFormProps(form)} className="mt-6 grid gap-4">
+      <div>
+        <Label className="text-base leading-relaxed" htmlFor="name">
+          名前
+        </Label>
+        <Input
+          {...getInputProps(fields.name, { type: 'text' })}
+          key={fields.name.key}
+          defaultValue={fields.name.initialValue}
+        />
+        <p className="text-sm text-red-500">{fields.name.errors}</p>
+        <p className="text-sm text-muted-foreground">30文字以内</p>
       </div>
-      <div className="grid grid-cols-[20%,80%]">
-        <Label htmlFor="bio">自己紹介</Label>
-        <div>
-          <Textarea
-            {...getTextareaProps(fields.bio)}
-            key={fields.bio.key}
-            defaultValue={fields.bio.initialValue}
-          />
-          <p className="text-sm text-red-500">{fields.bio.errors}</p>
-          <p className="text-sm text-muted-foreground">140文字以内</p>
-        </div>
+      <div>
+        <Label className="text-base leading-relaxed" htmlFor="bio">
+          自己紹介
+        </Label>
+        <Textarea
+          {...getTextareaProps(fields.bio)}
+          key={fields.bio.key}
+          defaultValue={fields.bio.initialValue}
+          className="min-h-[160px] max-h-[300px] resize-none [field-sizing:content]"
+        />
+        <p className="text-sm text-red-500">{fields.bio.errors}</p>
+        <p className="text-sm text-muted-foreground">140文字以内</p>
       </div>
-
       <Button
-        className={cn({ 'cursor-not-allowed': !form.valid || isPending })}
+        className={cn(
+          { 'cursor-not-allowed': !form.valid || isPending },
+          'w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+        )}
         disabled={!form.valid || isPending}
       >
         登録

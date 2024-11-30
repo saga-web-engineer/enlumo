@@ -21,7 +21,7 @@ export const Header: FC = async () => {
         </h1>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          {session?.user && <MenuSlide currentUser={currentUser} />}
+          {currentUser?.isLicense && <MenuSlide currentUser={currentUser} />}
         </div>
       </Wrapper>
     </header>
