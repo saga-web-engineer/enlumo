@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
+import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
 
 interface Props {
   threadId: string;
@@ -68,6 +69,7 @@ export const ThreadConversationList: FC<Props> = async ({
                 <div className="mt-4">
                   <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
                 </div>
+                <ThreadReactionList postId={post.id} />
               </div>
             </li>
           ))
