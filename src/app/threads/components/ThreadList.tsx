@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { CalendarDays, Frown, MessageCircle, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -12,6 +14,13 @@ interface Props {
   currentPage: number; // 現在のページ番号
   threadsPerPage: number; // 1ページのスレッド表示数
 }
+
+// UTCプラグインを読み込み
+dayjs.extend(utc);
+// timezoneプラグインを読み込み
+dayjs.extend(timezone);
+// タイムゾーンのデフォルトをJST化
+dayjs.tz.setDefault('Asia/Tokyo');
 
 export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => {
   const threads = await getThreads({ currentPage, threadsPerPage });
@@ -47,7 +56,7 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
                   </p>
                   <p className="flex items-center gap-2">
                     <CalendarDays size={'1em'} />
-                    {dayjs(thread.latestDate).format('YYYY-MM-DD HH:mm')}
+                    {dayjs(thread.latestDate).tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm')}
                   </p>
                 </div>
               </Link>
