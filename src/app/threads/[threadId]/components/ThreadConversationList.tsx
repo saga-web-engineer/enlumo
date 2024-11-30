@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { AtSign, CalendarDays, Frown, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
@@ -12,6 +14,13 @@ interface Props {
   currentPage: number; // 現在のページ番号
   postsPerPage: number; // 1ページの投稿表示数
 }
+
+// UTCプラグインを読み込み
+dayjs.extend(utc);
+// timezoneプラグインを読み込み
+dayjs.extend(timezone);
+// タイムゾーンのデフォルトをJST化
+dayjs.tz.setDefault('Asia/Tokyo');
 
 export const ThreadConversationList: FC<Props> = async ({
   threadId,
@@ -55,7 +64,7 @@ export const ThreadConversationList: FC<Props> = async ({
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CalendarDays size={'1em'} />
-                    {dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}
+                    {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

@@ -1,9 +1,9 @@
 import {
   ClipboardPen,
-  Handshake,
-  History,
+  // Handshake,
+  // History,
   LucideProps,
-  Mail,
+  // Mail,
   Settings,
   UserRoundPlus,
 } from 'lucide-react';
@@ -31,19 +31,19 @@ export const navList: NavMenu[] = [
     href: '/setting',
     icon: Settings,
   },
-  {
-    label: 'お問い合わせ',
-    href: '/contact',
-    icon: Mail,
-  },
-  {
-    label: '更新履歴',
-    href: '/history',
-    icon: History,
-  },
-  {
-    label: 'プライバシーポリシー',
-    href: '/policy',
-    icon: Handshake,
-  },
+  // {
+  //   label: 'お問い合わせ',
+  //   href: '/contact',
+  //   icon: Mail,
+  // },
+  // {
+  //   label: '更新履歴',
+  //   href: '/history',
+  //   icon: History,
+  // },
+  // {
+  //   label: 'プライバシーポリシー',
+  //   href: '/policy',
+  //   icon: Handshake,
+  // },
 ];
