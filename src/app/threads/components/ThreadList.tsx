@@ -6,62 +6,15 @@ import type { FC } from 'react';
 import prisma from '@/app/lib/db';
 import { ThreadPagination } from '@/app/threads/components/ThreadPagination';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
+import { getThreads } from './utils/getThreads';
 
 interface Props {
   currentPage: number; // 現在のページ番号
   threadsPerPage: number; // 1ページのスレッド表示数
 }
 
-interface Thread {
-  title: string;
-  id: string;
-  bio: string;
-  userName: string;
-  latestDate: string;
-  postCount: number;
-  // pcre: string;
-  // tcre: string;
-}
-
 export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => {
-  const threads = await prisma.$queryRaw<Thread[]>`
-    -- SELECT
-    --   t.id,
-    --   t.title,
-    --   t.bio,
-    --   MAX(p."createdAt")as pcre,
-    --   t."createdAt" as tcre,
-    --   COALESCE(MAX(p."createdAt"), t."createdAt") AS latestDate,
-    --   COUNT(p.id) AS postCount,
-    --   u.name AS userName
-    -- FROM
-    --   "Thread" t
-    -- LEFT JOIN
-    --   "Post" p ON t.id = p."threadId"
-    -- LEFT JOIN
-    --   "User" u ON t."userId" = u.id
-    -- GROUP BY
-    --   t.id, t.title, t.bio, t."createdAt", u."name"
-    -- ORDER BY
-    --   latestDate DESC;
-    SELECT
-      t.id,
-      t.title,
-      t.bio,
-      COALESCE(MAX(p."createdAt"), t."createdAt") AS latestDate,
-      COUNT(p.id) AS postCount,
-      u.name AS userName
-    FROM
-      "Thread" t
-    LEFT JOIN
-      "Post" p ON t.id = p."threadId"
-    LEFT JOIN
-      "User" u ON t."userId" = u.id
-    GROUP BY
-      t.id, t.title, t.bio, t."createdAt", u.name
-    ORDER BY
-      latestDate DESC;
-  `;
+  const threads = await getThreads({ currentPage, threadsPerPage });
 
   const totalThreads = await prisma.thread.count();
 
@@ -95,10 +48,6 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
                   <p className="flex items-center gap-2">
                     <CalendarDays size={'1em'} />
                     {dayjs(thread.latestDate).format('YYYY-MM-DD HH:mm')}
-                    {/* {typeof thread.latestDate} */}
-                    {/* {JSON.stringify(thread.pcre)}
-                    {JSON.stringify(thread.tcre)} */}
-                    {/* {thread.tcre} */}
                   </p>
                 </div>
               </Link>
