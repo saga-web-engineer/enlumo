@@ -1,41 +1,57 @@
-import type { FC } from 'react';
+"use client"
+
+import { useOptimistic, type FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-import prisma from '@/app/lib/db';
 import { updateReaction } from '@/app/threads/[threadId]/actions';
-import { auth } from '@/app/lib/auth';
 import { cn } from '@/lib/utils';
+import { Session } from 'next-auth';
+import { Post } from '@prisma/client';
+import { ReactionType } from './data/threadReactionList';
 
 interface Props {
-  postId: string;
-  name: string;
+  name: ReactionType;
+  currentUser: Session["user"] | undefined;
+  post: ({
+    [key in ReactionType]: {
+      id: string;
+    }[];
+  } & Post)
   children: React.ReactNode
 }
 
-export const ThreadReactionButton: FC<Props> = async ({ postId, name: reactionName, children }) => {
-  const session = await auth();
-  const currentUser = session?.user
+export const ThreadReactionButton: FC<Props> = ({ name: reactionName, currentUser, post, children }) => {
 
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-    include: {
-      [reactionName]: true
-    },
-  })
+  const [optimisticReactionUsers, addOptimistic] = useOptimistic
+    (
+      post[reactionName],
+      // updateFn
+      (currentState, optimisticValue) => {
+        if (!currentUser?.id) return currentState
+        if (optimisticValue === "true") {
+          return [...currentState, { id: currentUser.id }]
+        } else {
+          return currentState.filter(user => user.id !== currentUser.id)
+        }
+      }
+    );
 
   // 自分がリアクションをしているかどうか
-  const reactionState = currentUser && post?.[reactionName]?.some(user => user.id === currentUser.id)
+  const optimisticReactionState = optimisticReactionUsers.some(user => user.id === currentUser?.id)
 
   return (
-    <form action={updateReaction}>
-      <input type="hidden" name="postId" value={postId} />
+    <form action={async (formData: FormData) => {
+      updateReaction(formData)
+      addOptimistic(formData.get("state"))
+    }}>
+      <input type="hidden" name="postId" value={post.id} />
       <input type="hidden" name="reactionName" value={reactionName} />
       {/* booleanは渡せないのでStringにする */}
-      <input type="hidden" name="state" value={String(!reactionState)} />
+      <input type="hidden" name="state" value={String(!optimisticReactionState)} />
       <Button variant="outline" className={cn('rounded-full h-auto px-2 py-0', {
-        'bg-primary text-white': reactionState
+        'bg-primary text-white hover:bg-primary': optimisticReactionState
       })}>
-        <span className='text-lg'>{children}</span> {post?.[reactionName].length}
+        <span className='text-lg'>{children}</span> {optimisticReactionUsers.length}
       </Button>
     </form>
   )
