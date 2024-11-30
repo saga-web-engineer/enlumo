@@ -19,38 +19,17 @@ interface Thread {
   userName: string;
   latestDate: string;
   postCount: number;
-  // pcre: string;
-  // tcre: string;
 }
 
 export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => {
   const threads = await prisma.$queryRaw<Thread[]>`
-    -- SELECT
-    --   t.id,
-    --   t.title,
-    --   t.bio,
-    --   MAX(p."createdAt")as pcre,
-    --   t."createdAt" as tcre,
-    --   COALESCE(MAX(p."createdAt"), t."createdAt") AS latestDate,
-    --   COUNT(p.id) AS postCount,
-    --   u.name AS userName
-    -- FROM
-    --   "Thread" t
-    -- LEFT JOIN
-    --   "Post" p ON t.id = p."threadId"
-    -- LEFT JOIN
-    --   "User" u ON t."userId" = u.id
-    -- GROUP BY
-    --   t.id, t.title, t.bio, t."createdAt", u."name"
-    -- ORDER BY
-    --   latestDate DESC;
     SELECT
       t.id,
       t.title,
       t.bio,
-      COALESCE(MAX(p."createdAt"), t."createdAt") AS latestDate,
-      COUNT(p.id) AS postCount,
-      u.name AS userName
+      COALESCE(MAX(p."createdAt"), t."createdAt") AS "latestDate",
+      COUNT(p.id) AS "postCount",
+      u.name AS "userName"
     FROM
       "Thread" t
     LEFT JOIN
@@ -60,7 +39,9 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
     GROUP BY
       t.id, t.title, t.bio, t."createdAt", u.name
     ORDER BY
-      latestDate DESC;
+      "latestDate" DESC
+    LIMIT ${threadsPerPage}
+    OFFSET ${(currentPage - 1) * threadsPerPage};
   `;
 
   const totalThreads = await prisma.thread.count();
@@ -95,10 +76,6 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
                   <p className="flex items-center gap-2">
                     <CalendarDays size={'1em'} />
                     {dayjs(thread.latestDate).format('YYYY-MM-DD HH:mm')}
-                    {/* {typeof thread.latestDate} */}
-                    {/* {JSON.stringify(thread.pcre)}
-                    {JSON.stringify(thread.tcre)} */}
-                    {/* {thread.tcre} */}
                   </p>
                 </div>
               </Link>
