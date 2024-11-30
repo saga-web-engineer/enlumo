@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  inviteCode    String    @unique @default(uuid())
+  bio           String?
+
+  accounts  Account[]
+  sessions  Session[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  inviter   User?   @relation("invite", fields: [inviterId], references: [id]) // 自分を招待したユーザー
+  inviterId String?
+  invitee   User[]  @relation("invite") // 自分が招待したユーザー
+
+  isLicense Boolean  @default(false) // 招待コードを入力したらtrue
+  Threads   Thread[]
+  posts     Post[]
+  goodPost  Post[]   @relation("good")
+  badPost   Post[]   @relation("bad")
+  lovePost  Post[]   @relation("love")
+  funnyPost Post[]   @relation("funny")
+  cryPost   Post[]   @relation("cry")
+  angelPost Post[]   @relation("angel")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Thread {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  title     String
+  bio       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  threadId  String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  good      User[]   @relation("good")
+  bad       User[]   @relation("bad")
+  love      User[]   @relation("love")
+  funny     User[]   @relation("funny")
+  cry       User[]   @relation("cry")
+  angel     User[]   @relation("angel")
+}
