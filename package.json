@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "npx prisma generate",
+    "postinstall": "prisma generate",
     "seed": "tsx prisma/seed.ts",
     "test": "dotenv -e .env.test -- vitest",
     "migrate:test": "dotenv -e .env.test -- prisma migrate reset -f"
@@ -20,6 +20,7 @@
     "@auth/prisma-adapter": "^2.7.4",
     "@conform-to/react": "^1.2.2",
     "@conform-to/zod": "^1.2.2",
+    "@neondatabase/serverless": "^0.10.4",
     "@prisma/client": "^5.22.0",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
