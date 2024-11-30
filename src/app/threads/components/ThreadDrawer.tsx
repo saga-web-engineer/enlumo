@@ -3,7 +3,7 @@
 import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react';
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
 import { Plus, X } from 'lucide-react';
-import { useActionState, useEffect, useRef, type FC } from 'react';
+import { useActionState, type FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -37,27 +37,6 @@ export const ThreadDrawer: FC = () => {
     shouldRevalidate: 'onInput',
   });
 
-  const formContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (formContainerRef.current) {
-        formContainerRef.current.style.setProperty('bottom', `env(safe-area-inset-bottom)`);
-      }
-    };
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize);
-      handleResize(); // Initial call in case the keyboard is already open
-    }
-
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize);
-      }
-    };
-  }, []);
-
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -65,7 +44,7 @@ export const ThreadDrawer: FC = () => {
           <Plus className="!size-7 text-white" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent ref={formContainerRef} className="h-[96%]">
+      <DrawerContent className="h-full">
         <div className="w-[min(90%,600px)] mx-auto">
           <DrawerHeader className="flex justify-between items-center px-0">
             <DrawerTitle className="md:text-2xl">スレッドを新規作成</DrawerTitle>
@@ -101,7 +80,7 @@ export const ThreadDrawer: FC = () => {
             <Button
               className={cn(
                 { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'block w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
               )}
               disabled={!form.valid || isPending}
             >
