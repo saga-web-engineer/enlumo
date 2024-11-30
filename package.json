@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "seed": "tsx prisma/seed.ts",
     "test": "dotenv -e .env.test -- vitest",
     "migrate:test": "dotenv -e .env.test -- prisma migrate reset -f"
