@@ -65,7 +65,7 @@ export const ThreadDrawer: FC = () => {
           <Plus className="!size-7 text-white" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent ref={formContainerRef} className="h-[96%]">
+      <DrawerContent className="h-[96%] min-h-[70vh]">
         <div className="w-[min(90%,600px)] mx-auto">
           <DrawerHeader className="flex justify-between items-center px-0">
             <DrawerTitle className="md:text-2xl">スレッドを新規作成</DrawerTitle>
