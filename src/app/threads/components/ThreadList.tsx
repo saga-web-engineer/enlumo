@@ -7,7 +7,7 @@ import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPagination } from '@/app/threads/components/ThreadPagination';
-import { getBadge } from '@/app/threads/components/utils/getBadge';
+import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
 import { getThreads } from '@/app/threads/components/utils/getThreads';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
@@ -41,8 +41,8 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
           await Promise.all(
             threads.map(async (thread) => {
               // isDeveloper を取得
-              const badge = await getBadge(thread.userId);
-              const isDeveloper = badge?.isDeveloper;
+              const devFlag = await getDeveloperFlag(thread.userId);
+              const isDeveloper = devFlag?.isDeveloper;
 
               return (
                 <li key={thread.id} className="border-t last:border-b">

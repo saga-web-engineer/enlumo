@@ -7,7 +7,7 @@ import type { FC } from 'react';
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
-import { getBadge } from '@/app/threads/components/utils/getBadge';
+import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
 interface Props {
@@ -59,8 +59,8 @@ export const ThreadConversationList: FC<Props> = async ({
           await Promise.all(
             posts.map(async (post, index) => {
               // isDeveloper を取得
-              const badge = await getBadge(post.userId);
-              const isDeveloper = badge?.isDeveloper;
+              const devFlag = await getDeveloperFlag(post.userId);
+              const isDeveloper = devFlag?.isDeveloper;
 
               return (
                 <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
