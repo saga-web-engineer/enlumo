@@ -7,7 +7,6 @@ import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPagination } from '@/app/threads/components/ThreadPagination';
-// import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
 import { getThreads } from '@/app/threads/components/utils/getThreads';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
