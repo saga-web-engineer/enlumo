@@ -7,7 +7,6 @@ import type { FC } from 'react';
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
-import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
 interface Props {
@@ -56,44 +55,38 @@ export const ThreadConversationList: FC<Props> = async ({
             {'< ﾋﾟｴﾝ'}
           </li>
         ) : (
-          await Promise.all(
-            posts.map(async (post, index) => {
-              // isDeveloper を取得
-              const devFlag = await getDeveloperFlag(post.userId);
-              const isDeveloper = devFlag?.isDeveloper;
-
-              return (
-                <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
-                  <div className="grid gap-1">
-                    <div className="flex items-center gap-4">
-                      <div className="text-sm text-muted-foreground">
-                        #{totalPosts - (currentPage - 1) * postsPerPage - index}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CalendarDays size={'1em'} />
-                        {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <UserRound size={'1rem'} />
-                      <span className="flex items-center gap-1">
-                        {post.user.name}
-                        {isDeveloper && <BadgeCheck className="text-primary" size={'0.75rem'} />}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <AtSign size={'1rem'} />
-                      *****{post.user.id.slice(-10)}
-                    </div>
-                    <div className="mt-4">
-                      <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
-                    </div>
-                    <ThreadReactionList postId={post.id} />
+          posts.map((post, index) => (
+            <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
+              <div className="grid gap-1">
+                <div className="flex items-center gap-4">
+                  <div className="text-sm text-muted-foreground">
+                    #{totalPosts - (currentPage - 1) * postsPerPage - index}
                   </div>
-                </li>
-              );
-            })
-          )
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CalendarDays size={'1em'} />
+                    {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <UserRound size={'1rem'} />
+                  <span className="flex items-center gap-1">
+                    {post.user.name}
+                    {post.user.isDeveloper && (
+                      <BadgeCheck className="text-primary" size={'0.75rem'} />
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <AtSign size={'1rem'} />
+                  *****{post.user.id.slice(-10)}
+                </div>
+                <div className="mt-4">
+                  <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
+                </div>
+                <ThreadReactionList postId={post.id} />
+              </div>
+            </li>
+          ))
         )}
       </ol>
       <div className="mt-10">

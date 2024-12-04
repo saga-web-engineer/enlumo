@@ -7,7 +7,7 @@ import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPagination } from '@/app/threads/components/ThreadPagination';
-import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
+// import { getDeveloperFlag } from '@/app/threads/components/utils/getDeveloperFlag';
 import { getThreads } from '@/app/threads/components/utils/getThreads';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
@@ -38,42 +38,34 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
             {'< ﾋﾟｴﾝ'}
           </li>
         ) : (
-          await Promise.all(
-            threads.map(async (thread) => {
-              // isDeveloper を取得
-              const devFlag = await getDeveloperFlag(thread.userId);
-              const isDeveloper = devFlag?.isDeveloper;
-
-              return (
-                <li key={thread.id} className="border-t last:border-b">
-                  <Link
-                    className="grid gap-2 p-4 hover:bg-muted transition-colors"
-                    href={`/threads/${thread.id}`}
-                  >
-                    <h2 className="font-bold text-lg">{thread.title}</h2>
-                    <p className="text-sm text-muted-foreground">{thread.bio}</p>
-                    <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <UserRound size={'1rem'} />
-                      <span className="flex items-center gap-1">
-                        {thread.userName}
-                        {isDeveloper && <BadgeCheck className="text-primary" size={'0.75rem'} />}
-                      </span>
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <p className="flex items-center gap-2">
-                        <MessageCircle size={'1em'} />
-                        {thread.postCount}
-                      </p>
-                      <p className="flex items-center gap-2">
-                        <CalendarDays size={'1em'} />
-                        {dayjs(thread.latestDate).tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm')}
-                      </p>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })
-          )
+          threads.map((thread) => (
+            <li key={thread.id} className="border-t last:border-b">
+              <Link
+                className="grid gap-2 p-4 hover:bg-muted transition-colors"
+                href={`/threads/${thread.id}`}
+              >
+                <h2 className="font-bold text-lg">{thread.title}</h2>
+                <p className="text-sm text-muted-foreground">{thread.bio}</p>
+                <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <UserRound size={'1rem'} />
+                  <span className="flex items-center gap-1">
+                    {thread.userName}
+                    {thread.isDeveloper && <BadgeCheck className="text-primary" size={'0.75rem'} />}
+                  </span>
+                </p>
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <p className="flex items-center gap-2">
+                    <MessageCircle size={'1em'} />
+                    {thread.postCount}
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <CalendarDays size={'1em'} />
+                    {dayjs(thread.latestDate).tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm')}
+                  </p>
+                </div>
+              </Link>
+            </li>
+          ))
         )}
       </ul>
       <div className="mt-10">
