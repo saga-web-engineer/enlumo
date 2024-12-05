@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { AtSign, CalendarDays, Frown, UserRound } from 'lucide-react';
+import { AtSign, BadgeCheck, CalendarDays, Frown, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
-import { SHOW_PAGES } from '@/app/utils/siteSettings';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
+import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
 interface Props {
   threadId: string;
@@ -69,7 +69,12 @@ export const ThreadConversationList: FC<Props> = async ({
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <UserRound size={'1rem'} />
-                  {post.user.name}
+                  <span className="flex items-center gap-1">
+                    {post.user.name}
+                    {post.user.isDeveloper && (
+                      <BadgeCheck className="text-primary" size={'0.75rem'} />
+                    )}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <AtSign size={'1rem'} />
