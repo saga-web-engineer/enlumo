@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation';
 
 import { HeadingPage } from '@/app/components/heading/HeadingPage';
 import { LayoutPadding } from '@/app/components/layout/LayoutPadding';
-import { auth } from '@/app/lib/auth';
+import { auth, signOut } from '@/app/lib/auth';
 import { InviteCodeForm } from '@/app/license/components/InviteCodeForm';
+import { SignOutButton } from '@/app/license/components/SignOutButton';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
 
@@ -31,7 +32,17 @@ export default async function License() {
   return (
     <LayoutPadding>
       <HeadingPage>招待コード入力</HeadingPage>
+      <p className="pt-6">お友達にもらった招待コードを入力してね！</p>
       <InviteCodeForm />
+      <form
+        className="w-fit mx-auto mt-6"
+        action={async () => {
+          'use server';
+          await signOut();
+        }}
+      >
+        <SignOutButton />
+      </form>
     </LayoutPadding>
   );
 }
