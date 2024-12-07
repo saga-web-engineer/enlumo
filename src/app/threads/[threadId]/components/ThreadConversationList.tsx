@@ -8,6 +8,7 @@ import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
+import { ThreadConversationContent } from './ThreadConversationContent';
 
 interface Props {
   threadId: string;
@@ -81,7 +82,7 @@ export const ThreadConversationList: FC<Props> = async ({
                   *****{post.user.id.slice(-10)}
                 </div>
                 <div className="mt-4">
-                  <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
+                  <ThreadConversationContent threadId={threadId} text={post.content} />
                 </div>
                 <ThreadReactionList postId={post.id} />
               </div>
