@@ -6,6 +6,7 @@ import { ThreadPostPagination } from '@/app/threads/[threadId]/components/Thread
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
 import dayjs from '@/app/utils/dayjs';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
+import { ThreadConversationContent } from './ThreadConversationContent';
 
 interface Props {
   threadId: string;
@@ -72,7 +73,7 @@ export const ThreadConversationList: FC<Props> = async ({
                   *****{post.user.id.slice(-10)}
                 </div>
                 <div className="mt-4">
-                  <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
+                  <ThreadConversationContent threadId={threadId} text={post.content} />
                 </div>
                 <ThreadReactionList postId={post.id} />
               </div>

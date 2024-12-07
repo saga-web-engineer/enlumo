@@ -34,28 +34,45 @@ export const sendMessage = async (_prevState: unknown, formData: FormData) => {
 
 export const updateReaction = async (formData: FormData) => {
   const session = await auth();
-  if (!session?.user) throw new Error('ログインしていません')
+  if (!session?.user) throw new Error('ログインしていません');
 
   const submission = parseWithZod(formData, {
-    schema: updateReactionSchema
-  })
+    schema: updateReactionSchema,
+  });
 
-  if (submission.status !== 'success') return
+  if (submission.status !== 'success') return;
 
   const post = await prisma.post.update({
     where: {
-      id: submission.value.postId
+      id: submission.value.postId,
     },
     data: {
       // FormDataに渡されたstateがtrueの場合、リアクションに自分を追加する
       // FormDataに渡されたstateがfalseの場合、リアクションから自分を削除する
       [submission.value.reactionName]: {
         [submission.value.state ? 'connect' : 'disconnect']: {
-          id: session.user.id
-        }
-      }
-    }
-  })
+          id: session.user.id,
+        },
+      },
+    },
+  });
 
-  revalidatePath(`/threads/${post.threadId}`)
-}
+  revalidatePath(`/threads/${post.threadId}`);
+};
+
+export const getPostByPostNumber = async (threadId: string, number: number) => {
+  const post = await prisma.post.findFirst({
+    where: {
+      threadId,
+    },
+    orderBy: {
+      createdAt: 'asc',
+    },
+    skip: number - 1,
+    take: 1,
+  });
+
+  if (!post) new Error('そんな投稿ございません');
+
+  return post?.content;
+};
