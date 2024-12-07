@@ -24,7 +24,6 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
     async (prev: unknown, action: FormData) => {
       try {
         const result = await updateUser(prev, action);
-        // console.log(result);
 
         toast.success('設定を更新しました');
 
