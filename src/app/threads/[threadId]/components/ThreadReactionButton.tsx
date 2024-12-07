@@ -1,13 +1,14 @@
 'use client';
 
-import { useOptimistic, type FC } from 'react';
-
-import { updateReaction } from '@/app/threads/[threadId]/actions';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { Post } from '@prisma/client';
 import { Session } from 'next-auth';
-import { ReactionType } from './data/threadReactionList';
+import { useOptimistic, type FC } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+import { updateReaction } from '@/app/threads/[threadId]/actions';
+import { ReactionType } from '@/app/threads/[threadId]/components/data/threadReactionList';
 
 interface Props {
   name: ReactionType;
@@ -36,12 +37,12 @@ export const ThreadReactionButton: FC<Props> = ({
       } else {
         return currentState.filter((user) => user.id !== currentUser.id);
       }
-    },
+    }
   );
 
   // 自分がリアクションをしているかどうか
   const optimisticReactionState = optimisticReactionUsers.some(
-    (user) => user.id === currentUser?.id,
+    (user) => user.id === currentUser?.id
   );
 
   return (

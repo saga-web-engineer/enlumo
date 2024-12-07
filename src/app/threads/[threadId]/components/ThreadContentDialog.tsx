@@ -1,6 +1,8 @@
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { type FC, useState, useTransition } from 'react';
-import { getPostByPostNumber } from '../actions';
+
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+
+import { getPostByPostNumber } from '@/app/threads/[threadId]/actions';
 
 interface Props {
   threadId: string;
@@ -25,7 +27,7 @@ export const ThreadContentDialog: FC<Props> = ({ threadId, replyNumber }) => {
         {'>> '}
         {replyNumber}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[90%] max-w-[800px] max-h-[90%] overflow-auto">
         <DialogTitle>
           {'>> '}
           {replyNumber} の投稿

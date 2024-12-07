@@ -1,8 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { splitTextWithMention } from '../utils/splitTextWithMention';
-import { ThreadContentDialog } from './ThreadContentDialog';
+
+import { ThreadContentDialog } from '@/app/threads/[threadId]/components/ThreadContentDialog';
+import { splitTextWithMention } from '@/app/threads/[threadId]/utils/splitTextWithMention';
 
 interface Props {
   threadId: string;
