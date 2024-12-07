@@ -32,7 +32,7 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
       await sendMessage(_prev, action);
       return null;
     },
-    null
+    null,
   );
 
   const [form, fields] = useForm({
@@ -72,7 +72,7 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
             <Button
               className={cn(
                 { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
               )}
               disabled={!form.valid || isPending}
             >

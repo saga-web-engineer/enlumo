@@ -33,7 +33,7 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
         console.log(error);
       }
     },
-    null
+    null,
   );
   const [form, fields] = useForm({
     lastResult,
@@ -68,7 +68,7 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
         <Button
           className={cn(
             { 'disabled:pointer-events-auto': !form.valid || isPending },
-            'md:text-lg text-foreground w-[20%]'
+            'md:text-lg text-foreground w-[20%]',
           )}
           disabled={!form.valid || isPending}
         >
