@@ -1,10 +1,9 @@
 import {
+  BookOpenText,
   ClipboardPen,
   // Handshake,
   // History,
   LucideProps,
-  // Mail,
-  Settings,
   UserRoundPlus,
 } from 'lucide-react';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
@@ -22,14 +21,14 @@ export const navList: NavMenu[] = [
     icon: ClipboardPen,
   },
   {
+    label: 'マイページ',
+    href: '/mypage',
+    icon: BookOpenText,
+  },
+  {
     label: 'フレンド招待',
     href: '/invite',
     icon: UserRoundPlus,
-  },
-  {
-    label: '設定',
-    href: '/setting',
-    icon: Settings,
   },
   // {
   //   label: 'お問い合わせ',

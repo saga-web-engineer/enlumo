@@ -35,7 +35,7 @@ export const InviteCodeForm: FC = () => {
       <p className="text-sm text-red-500">{fields.inviteCode.errors}</p>
       {isPending ? (
         <Button
-          className="flex items-center w-[min(100%,320px)] mx-auto py-3 mt-6 md:text-lg md:py-4 !h-auto text-foreground cursor-not-allowed !pointer-events-auto hover:bg-primary"
+          className="flex items-center w-[min(100%,320px)] mx-auto py-3 mt-6 md:text-lg md:py-4 !h-auto text-foreground cursor-not-allowed disabled:pointer-events-auto hover:bg-primary"
           disabled
         >
           <Loader2 className="size-4 mr-2 sm:size-5 animate-spin" />
@@ -45,7 +45,7 @@ export const InviteCodeForm: FC = () => {
         <Button
           className={cn(
             {
-              'cursor-not-allowed !pointer-events-auto hover:bg-primary': !form.valid,
+              'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary': !form.valid,
             },
             'block w-[min(100%,320px)] mx-auto py-3 mt-6 md:text-lg md:py-4 !h-auto text-foreground'
           )}
