@@ -1,12 +1,10 @@
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import { AtSign, BadgeCheck, CalendarDays, Frown, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
+import dayjs from '@/app/utils/dayjs';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
 interface Props {
@@ -14,13 +12,6 @@ interface Props {
   currentPage: number; // 現在のページ番号
   postsPerPage: number; // 1ページの投稿表示数
 }
-
-// UTCプラグインを読み込み
-dayjs.extend(utc);
-// timezoneプラグインを読み込み
-dayjs.extend(timezone);
-// タイムゾーンのデフォルトをJST化
-dayjs.tz.setDefault('Asia/Tokyo');
 
 export const ThreadConversationList: FC<Props> = async ({
   threadId,
