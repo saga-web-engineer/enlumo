@@ -29,7 +29,7 @@ export const ThreadContentDialog: FC<Props> = ({ threadId, replyNumber }) => {
       </DialogTrigger>
       <DialogContent className="w-[90%] max-w-[800px] max-h-[90%] overflow-auto">
         <DialogTitle>
-          {'>> '}
+          {'# '}
           {replyNumber} の投稿
         </DialogTitle>
         {pending ? (

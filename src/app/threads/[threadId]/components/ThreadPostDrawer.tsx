@@ -2,7 +2,7 @@
 
 import { getFormProps, getTextareaProps, useForm } from '@conform-to/react';
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { useActionState, type FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,7 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
       await sendMessage(_prev, action);
       return null;
     },
-    null,
+    null
   );
 
   const [form, fields] = useForm({
@@ -71,12 +71,17 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
             <input type="hidden" name="threadId" value={threadId} />
             <Button
               className={cn(
-                { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
+                {
+                  'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary':
+                    !form.valid || isPending,
+                },
+                'flex items-center w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
               )}
               disabled={!form.valid || isPending}
             >
-              投稿する
+              {!form.valid ||
+                (isPending && <Loader2 className="size-4 mr-2 sm:size-5 animate-spin" />)}
+              投稿{!form.valid || isPending ? '処理中' : 'する'}
             </Button>
           </form>
         </div>

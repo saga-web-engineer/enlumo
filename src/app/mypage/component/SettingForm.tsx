@@ -2,6 +2,7 @@
 
 import { getFormProps, getInputProps, useForm } from '@conform-to/react';
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
+import { Loader2 } from 'lucide-react';
 import { FC, useActionState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -33,7 +34,7 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
         console.log(error);
       }
     },
-    null,
+    null
   );
   const [form, fields] = useForm({
     lastResult,
@@ -67,12 +68,15 @@ export const SettingForm: FC<Props> = ({ defaultValue }) => {
         </div>
         <Button
           className={cn(
-            { 'disabled:pointer-events-auto': !form.valid || isPending },
-            'md:text-lg text-foreground w-[20%]',
+            {
+              'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary':
+                !form.valid || isPending,
+            },
+            'md:text-lg text-foreground w-[20%] flex items-center justify-center'
           )}
           disabled={!form.valid || isPending}
         >
-          登録
+          {isPending ? <Loader2 className="size-4 mr-2 sm:size-5 animate-spin" /> : '登録'}
         </Button>
       </div>
     </form>
