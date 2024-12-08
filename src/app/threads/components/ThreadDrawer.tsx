@@ -2,7 +2,7 @@
 
 import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react';
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { Plus, X } from 'lucide-react';
+import { Loader2, Plus, X } from 'lucide-react';
 import { useActionState, type FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -74,12 +74,17 @@ export const ThreadDrawer: FC = () => {
             </div>
             <Button
               className={cn(
-                { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
+                {
+                  'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary':
+                    !form.valid || isPending,
+                },
+                'flex items-center w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
               )}
               disabled={!form.valid || isPending}
             >
-              スレッドを作成する
+              {!form.valid ||
+                (isPending && <Loader2 className="size-4 mr-2 sm:size-5 animate-spin" />)}
+              スレッド{!form.valid || isPending ? '作成処理中' : 'を作成する'}
             </Button>
           </form>
         </div>
