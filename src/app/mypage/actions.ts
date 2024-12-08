@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
-import { settingSchema } from '@/app/setting/schema';
+import { settingSchema } from '@/app/mypage/schema';
 
 export const updateUser = async (_prevState: unknown, formData: FormData) => {
   const session = await auth();
@@ -25,9 +25,10 @@ export const updateUser = async (_prevState: unknown, formData: FormData) => {
     },
     data: {
       name: submission.value.name,
-      bio: submission.value.bio,
     },
   });
 
-  revalidatePath('/setting');
+  revalidatePath('/mypage');
+
+  return submission.payload;
 };

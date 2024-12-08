@@ -1,26 +1,17 @@
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-import { CalendarDays, Frown, MessageCircle, UserRound } from 'lucide-react';
+import { BadgeCheck, CalendarDays, Frown, MessageCircle, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPagination } from '@/app/threads/components/ThreadPagination';
+import { getThreads } from '@/app/threads/components/utils/getThreads';
+import dayjs from '@/app/utils/dayjs';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
-import { getThreads } from './utils/getThreads';
 
 interface Props {
   currentPage: number; // 現在のページ番号
   threadsPerPage: number; // 1ページのスレッド表示数
 }
-
-// UTCプラグインを読み込み
-dayjs.extend(utc);
-// timezoneプラグインを読み込み
-dayjs.extend(timezone);
-// タイムゾーンのデフォルトをJST化
-dayjs.tz.setDefault('Asia/Tokyo');
 
 export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => {
   const threads = await getThreads({ currentPage, threadsPerPage });
@@ -47,7 +38,10 @@ export const ThreadList: FC<Props> = async ({ currentPage, threadsPerPage }) => 
                 <p className="text-sm text-muted-foreground">{thread.bio}</p>
                 <p className="flex items-center gap-2 text-sm text-muted-foreground">
                   <UserRound size={'1rem'} />
-                  {thread.userName}
+                  <span className="flex items-center gap-1">
+                    {thread.userName}
+                    {thread.isDeveloper && <BadgeCheck className="text-primary" size={'0.75rem'} />}
+                  </span>
                 </p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <p className="flex items-center gap-2">

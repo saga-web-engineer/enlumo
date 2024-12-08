@@ -3,6 +3,7 @@
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { LogOut, UserCircle2 } from 'lucide-react';
+import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type FC } from 'react';
@@ -10,10 +11,9 @@ import { useState, type FC } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
-import { deleteAccount, signOutAuth } from '@/app/components/menu/actions';
+import { signOutAuth } from '@/app/components/menu/actions';
 import { NavMenu } from '@/app/components/nav/NavMenu';
 import { SYSTEM_VERSION } from '@/app/utils/siteSettings';
-import { Session } from 'next-auth';
 
 interface Props {
   currentUser: Session['user'] | undefined;
@@ -47,21 +47,11 @@ export const MenuSlide: FC<Props> = ({ currentUser }) => {
         </SheetHeader>
         <NavMenu setOpen={setOpen} />
         <form className="w-full" action={signOutAuth}>
-          {/* DropdownMenuItemのスタイルを適用させるために普通のbuttonタグを使用 */}
           <button className="w-full text-left flex items-center gap-3 text-muted-foreground py-2 px-3 transition-colors hover:text-primary sm:gap-5 sm:text-xl">
             <LogOut className="size-4 sm:size-5" />
             ログアウト
           </button>
         </form>
-        {
-          // 抹消ボタンは最終的に削除する
-          process.env.NODE_ENV === 'development' && (
-            <form className="w-full" action={deleteAccount}>
-              {/* DropdownMenuItemのスタイルを適用させるために普通のbuttonタグを使用 */}
-              <button className="w-full text-red-500 font-bold cursor-default">抹消</button>
-            </form>
-          )
-        }
         <div className="mt-auto flex items-center justify-between">
           <div className="flex gap-4">
             <Link
