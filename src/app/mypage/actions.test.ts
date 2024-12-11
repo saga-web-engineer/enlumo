@@ -118,5 +118,20 @@ describe('設定', () => {
 
       expect(user?.name).toBe(USER_NAME);
     });
+    test('名前に禁止ワード「Relumo」が含まれていてLだけ大文字', async () => {
+      const NEW_NAME = 'reLumo';
+
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
+
+      await updateUser(null, formData);
+
+      const user = await prisma.user.findUnique({
+        where: { id: USER_ID },
+        select: { name: true },
+      });
+
+      expect(user?.name).toBe(USER_NAME);
+    });
   });
 });
