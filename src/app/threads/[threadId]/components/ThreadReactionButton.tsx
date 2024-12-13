@@ -37,12 +37,12 @@ export const ThreadReactionButton: FC<Props> = ({
       } else {
         return currentState.filter((user) => user.id !== currentUser.id);
       }
-    }
+    },
   );
 
   // 自分がリアクションをしているかどうか
   const optimisticReactionState = optimisticReactionUsers.some(
-    (user) => user.id === currentUser?.id
+    (user) => user.id === currentUser?.id,
   );
 
   return (
@@ -58,11 +58,11 @@ export const ThreadReactionButton: FC<Props> = ({
       <input type="hidden" name="state" value={String(!optimisticReactionState)} />
       <Button
         variant="outline"
-        className={cn('rounded-full h-auto px-2 py-0', {
+        className={cn('rounded-full h-auto px-2 py-[0.1em] gap-1', {
           'bg-primary text-white hover:bg-primary hover:text-white': optimisticReactionState,
         })}
       >
-        <span className="text-lg">{children}</span> {optimisticReactionUsers.length}
+        <span>{children}</span> {optimisticReactionUsers.length}
       </Button>
     </form>
   );

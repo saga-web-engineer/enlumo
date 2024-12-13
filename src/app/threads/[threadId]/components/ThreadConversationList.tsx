@@ -27,9 +27,7 @@ export const ThreadConversationList: FC<Props> = async ({
   });
 
   const posts = await prisma.post.findMany({
-    where: {
-      threadId: threadId,
-    },
+    where: { threadId },
     orderBy: {
       createdAt: 'desc',
     },
@@ -39,6 +37,9 @@ export const ThreadConversationList: FC<Props> = async ({
     skip: (currentPage - 1) * postsPerPage,
     take: postsPerPage,
   });
+
+  // ページの最初の投稿番号を計算
+  const startNumber = totalPosts - (currentPage - 1) * postsPerPage - (posts.length - 1);
 
   return (
     <>
@@ -50,12 +51,9 @@ export const ThreadConversationList: FC<Props> = async ({
             {'< ﾋﾟｴﾝ'}
           </li>
         ) : (
-          posts.map((post, index) => (
+          posts.reverse().map((post, index) => (
             <li className="relative border-t last-of-type:border-b p-4 pt-2" key={post.id}>
-              <ThreadPostDrawer
-                threadId={threadId}
-                replyNumber={totalPosts - (currentPage - 1) * postsPerPage - index}
-              >
+              <ThreadPostDrawer threadId={threadId} replyNumber={startNumber + index}>
                 <Button size="icon" className="absolute right-2 top-2 size-6 rounded-full">
                   <Reply color="white" />
                 </Button>
@@ -63,9 +61,7 @@ export const ThreadConversationList: FC<Props> = async ({
 
               <div className="grid gap-1">
                 <div className="flex items-center gap-4">
-                  <div className="text-sm text-muted-foreground">
-                    #{totalPosts - (currentPage - 1) * postsPerPage - index}
-                  </div>
+                  <div className="text-sm text-muted-foreground">#{startNumber + index}</div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CalendarDays size={'1em'} />
                     {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
