@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Docker Up
-        run: docker compose -f docker-compose.test.yaml up -d
+        run: docker compose -f docker-compose.test.yml up -d
 
       - name: Use Node.js
         uses: actions/setup-node@v4
