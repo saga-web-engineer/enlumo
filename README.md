@@ -29,7 +29,8 @@ Relumo（リルモ）は、招待制の掲示板アプリケーションです�
 - Zod
 - Conform
 - Vitest
-- Neon Serverless Postgres 
+- Neon Serverless Postgres
+- GitHub Actions
 
 以下はNext.jsのREADME
 ---
