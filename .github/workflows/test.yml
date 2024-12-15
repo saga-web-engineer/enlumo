@@ -8,7 +8,6 @@ jobs:
       - name: Docker Up
       - run: docker compose up -d
 
-      - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
