@@ -119,7 +119,7 @@ describe('設定', () => {
       expect(user?.name).toBe(USER_NAME);
     });
     test('名前に禁止ワード「Relumo」が含まれていてLだけ大文字', async () => {
-      const NEW_NAME = 'reaumo';
+      const NEW_NAME = 'reLumo';
 
       const formData = new FormData();
       formData.append('name', NEW_NAME);
