@@ -1,17 +1,30 @@
 name: Node.js CI
 on: [push]
+
 jobs:
   test_run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Docker Up
         run: docker compose -f docker-compose.test.yml up -d
+
+      - name: Wait for Postgres to be ready
+        run: |
+          until docker exec postgres-relumo-test pg_isready -U relumouser -d relumo_test; do
+            echo "Waiting for Postgres to be ready..."
+            sleep 2
+          done
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.11.0'
           cache: npm
+
+      - name: Set DATABASE_URL
+        run: echo "DATABASE_URL=postgresql://relumouser:relumopass@postgres_test:5432/relumo_test?schema=public" >> $GITHUB_ENV
+
       - run: npm ci
       - run: npm test
