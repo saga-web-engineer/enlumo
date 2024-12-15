@@ -5,9 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Docker Up
+      run: docker compose up -d
+
+      - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.11.0'
+          cache: npm
       - run: npm ci
       - run: npm test
