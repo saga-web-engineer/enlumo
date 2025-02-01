@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { HeadingPage } from '@/app/components/heading/HeadingPage';
 import { LayoutPadding } from '@/app/components/layout/LayoutPadding';
 import { HistoryList } from '@/app/history/components/HistoryList';
+import { auth } from '@/app/lib/auth';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
 
@@ -16,7 +18,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function History() {
+export default async function History() {
+  const session = await auth();
+  if (!session) redirect('/');
+
   return (
     <LayoutPadding>
       <HeadingPage>更新履歴</HeadingPage>
